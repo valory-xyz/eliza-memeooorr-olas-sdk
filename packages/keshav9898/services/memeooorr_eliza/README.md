@@ -1,3 +1,3 @@
 # Memeooorr Eliza ABCI Agent
 
-This agent uses the `abci` connection and generates hashes for eliza agent to be deployed on registry.
+This module contains the ABCI Memeooorr service for an AEA. It implements an ABCI application for a simple demonstration of running eliza agents on registry.
