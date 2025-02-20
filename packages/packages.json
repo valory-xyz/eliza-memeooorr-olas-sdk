@@ -1,4 +1,7 @@
 {
-    "dev": {},
-    "third_party": {}
+  "dev": {
+    "agent/keshav9898/memeooorr_eliza/0.1.0": "bafybeie2ba5qqyas2ge4fu62hpab56w673uxvrf4wfkxmpodhpckmio2xe",
+    "service/keshav9898/memeooorr_eliza/0.1.0": "bafybeibdnpaenxh7frwgrdpdttmy2exyiww2ao4oijf2bu2semj45agmjy"
+  },
+  "third_party": {}
 }
