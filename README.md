@@ -1,4 +1,4 @@
-# Hello World Olas Agent Service
+# Memeooorr Eliza  Olas Agent Service
 
 Example of minimum configuration files needed in order to deploy an autonomous agent built with any framework. These instructions allow the agent and service to be registered on {{ autonolas_protocol_registry_dapp }} and executed through Olas Quickstart.
 
@@ -11,27 +11,27 @@ Example of minimum configuration files needed in order to deploy an autonomous a
 
 Clone the repository:
 
-      git clone git@github.com:valory-xyz/olas-sdk-starter.git
+      git clone git@github.com:valory-xyz/eliza-memeooorr-olas-sdk.git
 
 Create development environment:
 
       make new_env
 
 Enter virtual environment:
-      
+
       pipenv shell
 
 ## Configure your agent
 
-To execute your agent through Olas Quickstart you will need to build a docker image with your agent code and push it to [Docker Hub](https://hub.docker.com/) into a public repository, the docker image of your agent will need to follow a specific naming convention. 
+To execute your agent through Olas Quickstart you will need to build a docker image with your agent code and push it to [Docker Hub](https://hub.docker.com/) into a public repository, the docker image of your agent will need to follow a specific naming convention.
 
 The steps to configure your agent will dictate where Olas Quickstart will look for your docker image, the docker namespace where this image will be hosted is your agent author, the image name will be the agent name and the tag will be the hash of your agent package. Follow the steps below to adjust configuration files with your agent's information:
 
 ### Adjust your agent configuration
 On `/packages/valory/agents/olas_hello_world/aea-config.yaml` adjust the fields:
-      
+
 - `agent_name` - The name of your agent, this will be the name of your agent image in [Docker Hub](https://hub.docker.com/).
-      
+
 - `author` - The name of your [Docker Hub](https://hub.docker.com/) namespace.
 
 - `description` - The description of your agent
@@ -50,11 +50,11 @@ On `packages/valory/services/olas_hello_world/service.yaml` adjust the fields:
 ### Adjust folders
 Rename the packages folders by the values defined above:
 
-      
+
       mv packages/valory/agents/olas_hello_world packages/valory/agents/<agent_name>
       mv packages/valory/services/olas_hello_world packages/valory/services/<agent_name>
-      mv packages/valory packages/<author_name>            
-      
+      mv packages/valory packages/<author_name>
+
 
 Configure the Open Autonomy CLI:
 

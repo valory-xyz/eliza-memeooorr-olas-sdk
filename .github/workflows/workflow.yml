@@ -3,7 +3,7 @@ name: main_workflow
 on:
   push:
     branches:
-      - develop
+      - development
       - main
   pull_request:
 
@@ -17,33 +17,33 @@ jobs:
 
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-12, windows-latest ]
+        os: [ubuntu-latest, macos-12, windows-latest]
         python-version: ["3.10.9"]
 
     timeout-minutes: 18
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@master
-      with:
-        python-version: ${{ matrix.python-version }}
-    - if: matrix.os != 'windows-latest'
-      name: Pipenv install requirements and check it can be locked
-      run: |
-        pip install pipenv==2023.7.23
-        pipenv --clear
-        time pipenv install --verbose --dev --skip-lock
-        time pipenv run pip install -e .[all]
-        time pipenv lock
-    - if: matrix.os == 'windows-latest'
-      name: Pipenv install requirements and check it can be locked
-      run: |
-        choco install ptime
-        pip install pipenv==2023.7.23
-        pipenv --clear
-        ptime pipenv install --verbose --dev --skip-lock
-        ptime pipenv run pip install -e .[all]
-        ptime pipenv lock
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@master
+        with:
+          python-version: ${{ matrix.python-version }}
+      - if: matrix.os != 'windows-latest'
+        name: Pipenv install requirements and check it can be locked
+        run: |
+          pip install pipenv==2023.7.23
+          pipenv --clear
+          time pipenv install --verbose --dev --skip-lock
+          time pipenv run pip install -e .[all]
+          time pipenv lock
+      - if: matrix.os == 'windows-latest'
+        name: Pipenv install requirements and check it can be locked
+        run: |
+          choco install ptime
+          pip install pipenv==2023.7.23
+          pipenv --clear
+          ptime pipenv install --verbose --dev --skip-lock
+          ptime pipenv run pip install -e .[all]
+          ptime pipenv lock
 
   copyright_doc_and_dependencies_check:
     continue-on-error: False
@@ -57,23 +57,23 @@ jobs:
     timeout-minutes: 30
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - uses: actions/setup-python@master
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run:  |
-        sudo apt-get update --fix-missing
-        sudo apt-get autoremove
-        sudo apt-get autoclean
-        pip install tomte[tox,cli]==0.2.17
-        pip install --user --upgrade setuptools
-    - name: Check copyright headers
-      run: tomte format-copyright --author valory --author fetchai
-    - name: License compatibility check
-      run: tox -e liccheck
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@master
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          sudo apt-get update --fix-missing
+          sudo apt-get autoremove
+          sudo apt-get autoclean
+          pip install tomte[tox,cli]==0.2.17
+          pip install --user --upgrade setuptools
+      - name: Check copyright headers
+        run: tomte format-copyright --author valory --author fetchai
+      - name: License compatibility check
+        run: tox -e liccheck
     # - name: Check docs
     #   run: tox -e check-api-docs
     # - name: Check doc links
@@ -94,58 +94,58 @@ jobs:
     timeout-minutes: 30
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@master
-      with:
-        python-version: ${{ matrix.python-version }}
-    - uses: actions/setup-go@v3
-      with:
-        go-version: "1.17.7"
-    - name: Install dependencies
-      run:  |
-        sudo apt-get update --fix-missing
-        sudo apt-get autoremove
-        sudo apt-get autoclean
-        pip install tomte[tox]==0.2.17
-        pip install --user --upgrade setuptools
-        # install Protobuf compiler
-        wget https://github.com/protocolbuffers/protobuf/releases/download/v3.19.4/protoc-3.19.4-linux-x86_64.zip
-        unzip protoc-3.19.4-linux-x86_64.zip -d protoc
-        sudo mv protoc/bin/protoc /usr/local/bin/protoc
-        # install IPFS
-        sudo apt-get install -y wget
-        sudo npm install -g markdown-spellcheck
-        wget -O ./go-ipfs.tar.gz https://dist.ipfs.io/go-ipfs/v0.6.0/go-ipfs_v0.6.0_linux-amd64.tar.gz
-        tar xvfz go-ipfs.tar.gz
-        sudo mv go-ipfs/ipfs /usr/local/bin/ipfs
-        ipfs init
-        make protolint_install
-    - name: Security checks
-      run: |
-        tox -e bandit
-        tox -e safety
-    - name: Check packages
-      run: tox -e check-packages    
-    - name: Code style check
-      run: |
-        tox -e black-check
-        tox -e isort-check
-        tox -e flake8
-        tox -e vulture
-        tox -e darglint
-    - name: Static type check
-      run: tox -e mypy
-    - name: Pylint
-      run: tox -e pylint
-    - name: Check spelling
-      run: tox -e spell-check
-    - name: AbciApp consistency checks
-      run: |
-        tox -e check-abci-docstrings
-        tox -e check-abciapp-specs
-        tox -e check-handlers
-        tox -e check-dialogues
-        tox -e analyse-services
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@master
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: actions/setup-go@v3
+        with:
+          go-version: "1.17.7"
+      - name: Install dependencies
+        run: |
+          sudo apt-get update --fix-missing
+          sudo apt-get autoremove
+          sudo apt-get autoclean
+          pip install tomte[tox]==0.2.17
+          pip install --user --upgrade setuptools
+          # install Protobuf compiler
+          wget https://github.com/protocolbuffers/protobuf/releases/download/v3.19.4/protoc-3.19.4-linux-x86_64.zip
+          unzip protoc-3.19.4-linux-x86_64.zip -d protoc
+          sudo mv protoc/bin/protoc /usr/local/bin/protoc
+          # install IPFS
+          sudo apt-get install -y wget
+          sudo npm install -g markdown-spellcheck
+          wget -O ./go-ipfs.tar.gz https://dist.ipfs.io/go-ipfs/v0.6.0/go-ipfs_v0.6.0_linux-amd64.tar.gz
+          tar xvfz go-ipfs.tar.gz
+          sudo mv go-ipfs/ipfs /usr/local/bin/ipfs
+          ipfs init
+          make protolint_install
+      - name: Security checks
+        run: |
+          tox -e bandit
+          tox -e safety
+      - name: Check packages
+        run: tox -e check-packages
+      - name: Code style check
+        run: |
+          tox -e black-check
+          tox -e isort-check
+          tox -e flake8
+          tox -e vulture
+          tox -e darglint
+      - name: Static type check
+        run: tox -e mypy
+      - name: Pylint
+        run: tox -e pylint
+      - name: Check spelling
+        run: tox -e spell-check
+      - name: AbciApp consistency checks
+        run: |
+          tox -e check-abci-docstrings
+          tox -e check-abciapp-specs
+          tox -e check-handlers
+          tox -e check-dialogues
+          tox -e analyse-services
 
   scan:
     name: gitleaks
